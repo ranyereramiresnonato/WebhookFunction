@@ -1,0 +1,15 @@
+{
+  "profiles": {
+    "ForwardWebhook": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7077"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "containerRunArguments": "--init",
+      "httpPort": 32553,
+      "useSSL": false
+    }
+  }
+}
