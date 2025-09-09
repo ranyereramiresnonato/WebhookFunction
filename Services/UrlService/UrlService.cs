@@ -1,53 +1,43 @@
 ﻿using ForwardWebhook.Enums;
+using Microsoft.Extensions.Configuration;
 
 namespace ForwardWebhook.Services.UrlService
 {
     public class UrlService : IUrlService
     {
-        private UrlService()
-        {
+        private readonly IConfiguration _configuration;
 
+        public UrlService(IConfiguration configuration)
+        {
+            _configuration = configuration;
         }
+
         public string SearchUrlForSending(int supplierIdentifier)
         {
-            string BaseUrl = "https://localhost:5001/Api/V1";
+            string baseUrl = _configuration["BaseUrl"];
+            if (string.IsNullOrEmpty(baseUrl))
+                throw new Exception("BaseUrl não configurada no local.settings.json");
 
-            switch (supplierIdentifier)
+            return supplierIdentifier switch
             {
-                case (int)SupplierEnum.QiSociedadeDeCredito:
-                    return BaseUrl += "/Qi/WebHook?type=0";
-                case (int)SupplierEnum.QiInss:
-                    return BaseUrl += "/Qi/Webhook?type=1";
-                case(int)SupplierEnum.QiDtvm:
-                    return BaseUrl += "/Qi/Webhook?type=2";
-                case (int)SupplierEnum.QiConsultaPix:
-                    return BaseUrl += "/Qi/Webhook?type=3";
-                case (int)SupplierEnum.UnicoCheck:
-                    return BaseUrl += "/UnicoCheck/Update-Process";
-                case (int)SupplierEnum.UnicoId:
-                    return BaseUrl += "/UnicoCheck/Update-Id-Unico";
-                case (int)SupplierEnum.Arbi:
-                    return BaseUrl += "/Arbi/Web-Hook";
-                case (int)SupplierEnum.Bmp:
-                    return BaseUrl += "/Bmp/WebHook";
-                case (int)SupplierEnum.BrasilIndoc:
-                    return BaseUrl += "/Documentoscopia/WebHook";
-                case (int)SupplierEnum.Iugu:
-                    return BaseUrl += "/Iugu/WebHook-Iugu";
-                case (int)SupplierEnum.J17Operation:
-                    return BaseUrl += "/J17/Web-Hook";
-                case (int)SupplierEnum.J17Simulation:
-                    return BaseUrl += "/J17/Simulation-WebHook";
-                case (int)SupplierEnum.NycBank:
-                    return BaseUrl += "/NYC/WebHook";
-                case (int)SupplierEnum.OneBlink:
-                    return BaseUrl += "/OneBlink/Webhook-One-Blink";
-                case (int)SupplierEnum.NuVideo:
-                    return BaseUrl += "/Operation/Web-Hook-Nuvideo";
-                case (int)SupplierEnum.ParanaBank:
-                    return BaseUrl += "/ParanaBank/Webhook";
-                default: throw new Exception("Url não encontrada para o parâmetro");
-            }
+                (int)SupplierEnum.QiSociedadeDeCredito => $"{baseUrl}/Qi/WebHook?type=0",
+                (int)SupplierEnum.QiInss => $"{baseUrl}/Qi/Webhook?type=1",
+                (int)SupplierEnum.QiDtvm => $"{baseUrl}/Qi/Webhook?type=2",
+                (int)SupplierEnum.QiConsultaPix => $"{baseUrl}/Qi/Webhook?type=3",
+                (int)SupplierEnum.UnicoCheck => $"{baseUrl}/UnicoCheck/Update-Process",
+                (int)SupplierEnum.UnicoId => $"{baseUrl}/UnicoCheck/Update-Id-Unico",
+                (int)SupplierEnum.Arbi => $"{baseUrl}/Arbi/Web-Hook",
+                (int)SupplierEnum.Bmp => $"{baseUrl}/Bmp/WebHook",
+                (int)SupplierEnum.BrasilIndoc => $"{baseUrl}/Documentoscopia/WebHook",
+                (int)SupplierEnum.Iugu => $"{baseUrl}/Iugu/WebHook-Iugu",
+                (int)SupplierEnum.J17Operation => $"{baseUrl}/J17/Web-Hook",
+                (int)SupplierEnum.J17Simulation => $"{baseUrl}/J17/Simulation-WebHook",
+                (int)SupplierEnum.NycBank => $"{baseUrl}/NYC/WebHook",
+                (int)SupplierEnum.OneBlink => $"{baseUrl}/OneBlink/Webhook-One-Blink",
+                (int)SupplierEnum.NuVideo => $"{baseUrl}/Operation/Web-Hook-Nuvideo",
+                (int)SupplierEnum.ParanaBank => $"{baseUrl}/ParanaBank/Webhook",
+                _ => throw new Exception("Url não encontrada para o parâmetro")
+            };
         }
     }
 }
