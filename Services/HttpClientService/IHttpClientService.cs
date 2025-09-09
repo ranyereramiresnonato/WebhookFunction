@@ -8,6 +8,6 @@ namespace ForwardWebhook.Services.HttpClientService
 {
     public interface IHttpClientService
     {
-        Task<HttpResponseMessage> PostAsync(string url, object body);
+        Task<HttpResponseMessage> PostAsync(string url, object body, Dictionary<string, string>? headers = null);
     }
 }

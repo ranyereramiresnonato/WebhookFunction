@@ -1,4 +1,5 @@
 using ForwardWebhook.Services.HttpClientService;
+using ForwardWebhook.Services.LoggingService;
 using ForwardWebhook.Services.UrlService;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,6 +12,7 @@ var host = new HostBuilder()
         services.AddHttpClient<HttpClientService>();
         services.AddScoped<IHttpClientService, HttpClientService>();
         services.AddScoped<IUrlService, UrlService>();
+        services.AddScoped<ILoggingService, LoggingService>();
         services.AddApplicationInsightsTelemetryWorkerService();
         services.ConfigureFunctionsApplicationInsights();
     })
