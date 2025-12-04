@@ -37,12 +37,12 @@ namespace ForwardWebhook
                 string jsonString = message.Body.ToString();
                 ForwardWebhookDTO? body = JsonSerializer.Deserialize<ForwardWebhookDTO>(jsonString);
 
-                if (body == null || body.Body == null)
+                if (body == null || body.Payload == null)
                 {
                     throw new Exception("O body buscado na fila não pode ser null");
                 }
 
-                string url = _urlService.SearchUrlForSending(body.SupplierIdentifier);
+                string url = _urlService.SearchUrlForSending(body.DestinationIdentifier);
 
                 Dictionary<string, string> headers = new Dictionary<string, string>
                 {

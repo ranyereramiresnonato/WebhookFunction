@@ -8,6 +8,6 @@ namespace ForwardWebhook.Services.UrlService
 {
     public interface IUrlService
     {
-        string SearchUrlForSending(int supplierIdentifier);
+        string SearchUrlForSending(string destinationIdentifier);
     }
 }

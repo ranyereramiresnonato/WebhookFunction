@@ -1,4 +1,4 @@
-﻿using ForwardWebhook.Enums;
+﻿using ForwardWebhook.Consts;
 using Microsoft.Extensions.Configuration;
 
 namespace ForwardWebhook.Services.UrlService
@@ -12,31 +12,30 @@ namespace ForwardWebhook.Services.UrlService
             _configuration = configuration;
         }
 
-        public string SearchUrlForSending(int supplierIdentifier)
+        public string SearchUrlForSending(string destinationIdentifier)
         {
             string baseUrl = _configuration["BaseUrl"];
             if (string.IsNullOrEmpty(baseUrl))
                 throw new Exception("BaseUrl não configurada no local.settings.json");
 
-            return supplierIdentifier switch
+            return destinationIdentifier switch
             {
-                (int)SupplierEnum.QiSociedadeDeCredito => $"{baseUrl}/Qi/WebHook?type=0",
-                (int)SupplierEnum.QiInss => $"{baseUrl}/Qi/Webhook?type=1",
-                (int)SupplierEnum.QiDtvm => $"{baseUrl}/Qi/Webhook?type=2",
-                (int)SupplierEnum.QiConsultaPix => $"{baseUrl}/Qi/Webhook?type=3",
-                (int)SupplierEnum.UnicoCheck => $"{baseUrl}/UnicoCheck/Update-Process",
-                (int)SupplierEnum.UnicoId => $"{baseUrl}/UnicoCheck/Update-Id-Unico",
-                (int)SupplierEnum.Arbi => $"{baseUrl}/Arbi/Web-Hook",
-                (int)SupplierEnum.Bmp => $"{baseUrl}/Bmp/WebHook",
-                (int)SupplierEnum.BrasilIndoc => $"{baseUrl}/Documentoscopia/WebHook",
-                (int)SupplierEnum.Iugu => $"{baseUrl}/Iugu/WebHook-Iugu",
-                (int)SupplierEnum.J17Operation => $"{baseUrl}/J17/Web-Hook",
-                (int)SupplierEnum.J17Simulation => $"{baseUrl}/J17/Simulation-WebHook",
-                (int)SupplierEnum.NycBank => $"{baseUrl}/NYC/WebHook",
-                (int)SupplierEnum.OneBlink => $"{baseUrl}/OneBlink/Webhook-One-Blink",
-                (int)SupplierEnum.NuVideo => $"{baseUrl}/Operation/Web-Hook-Nuvideo",
-                (int)SupplierEnum.ParanaBank => $"{baseUrl}/ParanaBank/Webhook",
-                _ => throw new Exception("Url não encontrada para o parâmetro")
+                ProviderIdentifiers.QiFgts => $"{baseUrl}/Qi/WebHook?type=0",
+                ProviderIdentifiers.QiInss => $"{baseUrl}/Qi/Webhook?type=1",
+                ProviderIdentifiers.QiInstallments => $"{baseUrl}/Qi/Webhook?type=2",
+                ProviderIdentifiers.UnicoCheck => $"{baseUrl}/UnicoCheck/Update-Process",
+                ProviderIdentifiers.UnicoId => $"{baseUrl}/UnicoCheck/Update-Id-Unico",
+                ProviderIdentifiers.Bmp => $"{baseUrl}/Bmp/WebHook",
+                ProviderIdentifiers.BrasilIndoc => $"{baseUrl}/Documentoscopia/WebHook",
+                ProviderIdentifiers.Iugu => $"{baseUrl}/Iugu/WebHook-Iugu",
+                ProviderIdentifiers.J17Operation => $"{baseUrl}/J17/Web-Hook",
+                ProviderIdentifiers.J17Simulation => $"{baseUrl}/J17/Simulation-WebHook",
+                ProviderIdentifiers.Nuvideo => $"{baseUrl}/Operation/Web-Hook-Nuvideo",
+                ProviderIdentifiers.NycBank => $"{baseUrl}/NYC/WebHook",
+                ProviderIdentifiers.OneBlink => $"{baseUrl}/OneBlink/Webhook-One-Blink",
+                ProviderIdentifiers.ParanaBank => $"{baseUrl}/ParanaBank/Webhook",
+
+                _ => throw new Exception($"Url não encontrada para o parâmetro '{destinationIdentifier}'")
             };
         }
     }

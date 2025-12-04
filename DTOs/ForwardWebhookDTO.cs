@@ -3,7 +3,7 @@ namespace ForwardWebhook.Models
 {
     public class ForwardWebhookDTO
     {
-        public int SupplierIdentifier { get; set; }
-        public object? Body { get; set; }
+        public string DestinationIdentifier { get; set; }
+        public object? Payload { get; set; }
     }
 }
